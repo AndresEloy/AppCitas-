@@ -1,6 +1,4 @@
-﻿using AppCitas.Service.Extensions;
-
-namespace AppCitas.Service.Entities;
+﻿namespace AppCitas.Service.Entities;
 
 public class AppUser
 {
@@ -21,4 +19,6 @@ public class AppUser
     public ICollection<Photo> Photos { get; set; }
     public ICollection<UserLike> LikedByUsers { get; set; }
     public ICollection<UserLike> LikedUsers { get; set; }
+    public ICollection<Message> MessagesSent { get; set; }
+    public ICollection<Message> MessagesReceived { get; set; }
 }
