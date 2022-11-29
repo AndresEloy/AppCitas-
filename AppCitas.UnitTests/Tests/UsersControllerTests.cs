@@ -71,7 +71,7 @@ namespace AppCitas.UnitTests.Tests
         }
 
         [Theory]
-        [InlineData("OK", "wagner", "Pa$$w0rd")]
+        [InlineData("OK", "todd", "Pa$$w0rd")]
         public async Task GetUserByUsername_ShouldOK(string statusCode, string username, string password)
         {
             // Arrange
