@@ -27,7 +27,7 @@ namespace AppCitas.UnitTests.Tests
             _client = TestHelper.Instance.Client;
         }
         [Theory]
-        [InlineData("BadRequest", "louise", "Pa$$w0rd", "louise","Hola Mundo")]
+        [InlineData("BadRequest", "lisa", "Pa$$w0rd", "lisa","Mundo")]
         public async Task CreateMessage_BadRequest(string statusCode, string username, string password, string recipientUsername,string content)
         {
             // Arrange

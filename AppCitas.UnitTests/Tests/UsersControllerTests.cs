@@ -35,8 +35,8 @@ namespace AppCitas.UnitTests.Tests
         }
 
         [Theory]
-        [InlineData("OK", "wagner", "Pa$$w0rd")]
-        public async Task GetUsersNoPagination_OK(string statusCode, string username, string password)
+        [InlineData("OK", "lisa", "Pa$$w0rd")]
+        public async Task GetUsersNoPagination_ShouldOK(string statusCode, string username, string password)
         {
             // Arrange
             _client.DefaultRequestHeaders.Authorization = null;
@@ -53,15 +53,15 @@ namespace AppCitas.UnitTests.Tests
         }
 
         [Theory]
-        [InlineData("OK", "wagner", "Pa$$w0rd",1,10)]
-        public async Task GetUsersWithPagination_OK(string statusCode, string username, string password, int pageSize, int pageNumber)
+        [InlineData("OK", "lisa", "Pa$$w0rd", 1, 10)]
+        public async Task GetUsersWithPagination_ShouldOK(string statusCode, string username, string password, int pageSize, int pageNumber)
         {
             // Arrange
             _client.DefaultRequestHeaders.Authorization = null;
 
             var user = await LoginHelper.LoginUser(username, password);
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
-            requestUri = $"{apiRoute}"+ "?pageNumber="+ pageSize + "&pageSize" + pageNumber;
+            requestUri = $"{apiRoute}" + "?pageNumber=" + pageSize + "&pageSize" + pageNumber;
 
             // Act
             httpResponse = await _client.GetAsync(requestUri);
@@ -71,32 +71,33 @@ namespace AppCitas.UnitTests.Tests
         }
 
         [Theory]
-        [InlineData("OK", "todd", "Pa$$w0rd")]
-        public async Task GetUserByUsername_OK(string statusCode, string username, string password)
+        [InlineData("OK", "wagner", "Pa$$w0rd")]
+        public async Task GetUserByUsername_ShouldOK(string statusCode, string username, string password)
         {
             // Arrange
             var user = await LoginHelper.LoginUser(username, password);
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
-            requestUri = $"{apiRoute}/"+username;
+            requestUri = $"{apiRoute}/" + username;
 
             // Act
             httpResponse = await _client.GetAsync(requestUri);
-            
+
             // Assert
             Assert.Equal(Enum.Parse<HttpStatusCode>(statusCode, true), httpResponse.StatusCode);
             Assert.Equal(statusCode, httpResponse.StatusCode.ToString());
         }
 
         [Theory]
-        [InlineData("NoContent", "lisa", "Pa$$w0rd","IntroductionU","LookingForU","InterestsU","CityU","CountryU")]
-        public async Task UpdateUser_NoContent(string statusCode, string username, string password,string introduction,string lookingFor,string interests, string city,string country)
+        [InlineData("NoContent", "lisa", "Pa$$w0rd", "IntroductionU", "LookingForU", "InterestsU", "CityU", "CountryU")]
+        public async Task UpdateUser_ShouldNoContent(string statusCode, string username, string password, string introduction, string lookingFor, string interests, string city, string country)
         {
             // Arrange
             _client.DefaultRequestHeaders.Authorization = null;
             var user = await LoginHelper.LoginUser(username, password);
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
 
-            var memberUpdateDto = new MemberUpdateDto {
+            var memberUpdateDto = new MemberUpdateDto
+            {
                 Introduction = introduction,
                 LookingFor = lookingFor,
                 Interests = interests,
@@ -109,15 +110,15 @@ namespace AppCitas.UnitTests.Tests
             requestUri = $"{apiRoute}";
 
             // Act
-            httpResponse = await _client.PutAsync(requestUri,httpContent);
+            httpResponse = await _client.PutAsync(requestUri, httpContent);
             // Assert
             Assert.Equal(Enum.Parse<HttpStatusCode>(statusCode, true), httpResponse.StatusCode);
             Assert.Equal(statusCode, httpResponse.StatusCode.ToString());
         }
 
         [Theory]
-        [InlineData("Created", "tanner", "Pa$$w0rd", "../../../a.jpg")]
-        public async Task AddPhoto_Created(string statusCode, string username, string password, string file)
+        [InlineData("Created", "lisa", "Pa$$w0rd", "../../../a.jpg")]
+        public async Task AddPhoto_ShouldCreated(string statusCode, string username, string password, string file)
         {
             // Arrange
             _client.DefaultRequestHeaders.Authorization = null;
@@ -139,7 +140,7 @@ namespace AppCitas.UnitTests.Tests
             };
             form.Add(content);
 
-            requestUri = $"{apiRoute}"+ "/add-photo";
+            requestUri = $"{apiRoute}" + "/add-photo";
 
             // Act
             httpResponse = await _client.PostAsync(requestUri, form);
@@ -150,8 +151,8 @@ namespace AppCitas.UnitTests.Tests
         }
 
         [Theory]
-        [InlineData("NoContent", "lisa", "Pa$$w0rd", "../../../b.jpg")]
-        public async Task SetMainPhoto_OK(string statusCode, string username, string password, string file)
+        [InlineData("NoContent", "wagner", "Pa$$w0rd", "../../../b.jpg")]
+        public async Task SetMainPhoto_ShouldOK(string statusCode, string username, string password, string file)
         {
             // Arrange
             _client.DefaultRequestHeaders.Authorization = null;
@@ -183,7 +184,7 @@ namespace AppCitas.UnitTests.Tests
 
 
 
-            requestUri = $"{apiRoute}" + "/set-main-photo/"+id;
+            requestUri = $"{apiRoute}" + "/set-main-photo/" + id;
 
             // Act
             httpResponse = await _client.PutAsync(requestUri, null);
@@ -193,8 +194,8 @@ namespace AppCitas.UnitTests.Tests
         }
 
         [Theory]
-        [InlineData("OK", "berry", "Pa$$w0rd","../../../c.jpg")]
-        public async Task DeletePhoto_OK(string statusCode, string username, string password,string file)
+        [InlineData("OK", "rosa", "Pa$$w0rd", "../../../c.jpg")]
+        public async Task DeletePhoto_ShouldOK(string statusCode, string username, string password, string file)
         {
             // Arrange
             var user = await LoginHelper.LoginUser(username, password);
@@ -234,8 +235,8 @@ namespace AppCitas.UnitTests.Tests
         }
 
         [Theory]
-        [InlineData("NotFound", "rosa", "Pa$$w0rd", "20")]
-        public async Task DeletePhoto_NotFound(string statusCode, string username, string password, string id)
+        [InlineData("NotFound", "wagner", "Pa$$w0rd", "20")]
+        public async Task DeletePhoto_ShouldNotFound(string statusCode, string username, string password, string id)
         {
             // Arrange
             _client.DefaultRequestHeaders.Authorization = null;
@@ -244,7 +245,7 @@ namespace AppCitas.UnitTests.Tests
 
 
 
-            requestUri = $"{apiRoute}" + "/delete-photo/" + id;
+            requestUri = $"{apiRoute}" + "/photos/" + id;
 
             // Act
             httpResponse = await _client.DeleteAsync(requestUri);
